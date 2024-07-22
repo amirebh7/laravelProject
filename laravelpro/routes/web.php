@@ -19,9 +19,9 @@ use App\Http\Controllers\HomeController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Auth::routes(['verify' => true]);
 
+Auth::routes(['verify' => true]);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/auth/google' ,[GoogleAuthController::class, 'redirect'])->name('auth.google');
 Route::get('/auth/google/callback' ,[GoogleAuthController::class, 'callback']);
