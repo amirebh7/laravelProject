@@ -40,6 +40,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function activecode(){
+        return $this->hasMany(ActiveCode::class);
+    }
+
     public function hasTwoFactor($key)
     {
         return $this->two_factor_type == $key;
