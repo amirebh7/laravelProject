@@ -25,7 +25,16 @@ class ProfileController extends Controller
         ]);
 
         if($data['type'] === 'sms') {
-            // validation phone number
+            if($request->user()->phone_number !== $data['phone']) {
+                // create a new code
+                // send the code to user phone number
+
+                return redirect(route('profile.2fa.phone'));
+            } else {
+                $request->user()->update([
+                    'two_factor_type' => 'sms'
+                ]);
+            }
 
         }
 
@@ -34,7 +43,22 @@ class ProfileController extends Controller
                 'two_factor_type' => 'off'
             ]);
         }
-
         return back();
     }
+
+
+    public function getPhoneVerify()
+    {
+        return view('profile.phone-verify');
+    }
+    public function postPhoneVerify(Request $request)
+    {
+        $request->validate([
+            'token' => 'required'
+        ]);
+        return $request->token;
+//        return $request->token;
+    }
+
+
 }

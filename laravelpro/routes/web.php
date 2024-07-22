@@ -34,5 +34,8 @@ Route::middleware('auth')->group(function() {
     Route::get('profile' , [ProfileController::class, 'index'])->name('profile');
     Route::get('profile/twofactor' , [ProfileController::class, 'manageTwoFactor'])->name('profile.2fa.manage');
     Route::post('profile/twofactor' , [ProfileController::class, 'postManageTwoFactor']);
+
+    Route::get('profile/twofactor/phone' , [ProfileController::class, 'getPhoneVerify'])->name('profile.2fa.phone');
+    Route::post('profile/twofactor/phone' , [ProfileController::class, 'postPhoneVerify']);
 });
 
