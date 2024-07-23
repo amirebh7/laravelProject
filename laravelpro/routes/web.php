@@ -17,10 +17,6 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    auth()->user()->activeCode()->create([
-        'code'=>111111,
-        'expired_at'=>now()->addMinutes(10)
-    ]);
     return view('welcome');
 });
 

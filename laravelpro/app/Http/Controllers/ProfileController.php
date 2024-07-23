@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActiveCode;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -27,8 +28,12 @@ class ProfileController extends Controller
         if($data['type'] === 'sms') {
             if($request->user()->phone_number !== $data['phone']) {
                 // create a new code
+                    $code=ActiveCode::generateCode($request->user());
+                    $request->session()->flash('phone' , $data['phone']);
                 // send the code to user phone number
+                //TODO Send Sms
 
+//                    return $code;  // code sakhte shode ra be ma neshan midahad
                 return redirect(route('profile.2fa.phone'));
             } else {
                 $request->user()->update([
@@ -47,8 +52,14 @@ class ProfileController extends Controller
     }
 
 
-    public function getPhoneVerify()
+    public function getPhoneVerify(Request $request)
     {
+        if(! $request->session()->has('phone')) {
+            return redirect(route('profile.2fa.manage'));
+        }
+
+        $request->session()->reflash();
+
         return view('profile.phone-verify');
     }
     public function postPhoneVerify(Request $request)
@@ -56,7 +67,24 @@ class ProfileController extends Controller
         $request->validate([
             'token' => 'required'
         ]);
-        return $request->token;
+        if(! $request->session()->has('phone')) {
+            return redirect(route('profile.2fa.manage'));
+        }
+
+        $status = ActiveCode::verifyCode($request->token , $request->user());
+        if($status) {
+            $request->user()->activeCode()->delete();
+            $request->user()->update([
+                'phone_number' => $request->session()->get('phone'),
+                'two_factor_type' => 'sms'
+            ]);
+
+            alert()->success('شماره تلفن و احرازهویت دو مرحلهای شما تایید شد.' , 'عملیات موفقیت آمیز بود');
+        } else {
+            alert()->error('شماره تلفن و احرازهویت دو مرحلهای شما تایید نشد.' , 'عملیات ناموفق بود');
+        }
+
+        return redirect(route('profile.2fa.manage'));
 //        return $request->token;
     }
 
