@@ -18,7 +18,7 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    
+
     return view('welcome');
 });
 
@@ -28,7 +28,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/auth/google' ,[GoogleAuthController::class, 'redirect'])->name('auth.google');
 Route::get('/auth/google/callback' ,[GoogleAuthController::class, 'callback']);
 
-Route::get('/auth/token' ,[AuthTokenController::class, 'getToken']);
+Route::get('/auth/token' ,[AuthTokenController::class, 'getToken'])->name('2fa.token');
 Route::post('/auth/token' ,[AuthTokenController::class, 'postToken']);
 
 Route::get('/secret' , function() {
