@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
+    
     return view('welcome');
 });
 
@@ -25,6 +27,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/auth/google' ,[GoogleAuthController::class, 'redirect'])->name('auth.google');
 Route::get('/auth/google/callback' ,[GoogleAuthController::class, 'callback']);
+
+Route::get('/auth/token' ,[AuthTokenController::class, 'getToken']);
+Route::post('/auth/token' ,[AuthTokenController::class, 'postToken']);
 
 Route::get('/secret' , function() {
     return 'secret';
