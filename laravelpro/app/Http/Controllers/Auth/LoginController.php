@@ -43,4 +43,20 @@ class LoginController extends Controller
     {
         return $this->loggendin($request , $user);
     }
+
+    
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'g-recaptcha-response' => 'required'
+        ]);
+    }
+
+    public function login(Request $request)
+    {
+        return $request->all();
+    }
 }
