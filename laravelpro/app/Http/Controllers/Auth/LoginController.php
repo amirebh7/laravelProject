@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\Recaptcha;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\ActiveCode;
@@ -44,19 +45,17 @@ class LoginController extends Controller
         return $this->loggendin($request , $user);
     }
 
-    
+
 
     protected function validateLogin(Request $request)
     {
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required'
+            'g-recaptcha-response' => ['required' , new Recaptcha]
+        ],[
+            'g-recaptcha-response.required' => 'لطفا روی من ربات نیستم کلیک کنید'
         ]);
     }
 
-    public function login(Request $request)
-    {
-        return $request->all();
-    }
 }
