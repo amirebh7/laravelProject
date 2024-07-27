@@ -33,7 +33,7 @@ class ProfileController extends Controller
                     $request->session()->flash('phone' , $data['phone']);
                 // send the code to user phone number
                 //TODO Send Sms
-                $request->user()->notify(new ActiveCodeNotification($code));
+                $request->user()->notify(new ActiveCodeNotification($code, $data['phone']));
 //                    return $code;  // code sakhte shode ra be ma neshan midahad
                 return redirect(route('profile.2fa.phone'));
             } else {
