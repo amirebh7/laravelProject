@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\ActiveCode;
+use App\Notifications\LoginToWebsiteNotification;
 use Illuminate\Http\Request;
 
 trait TowFactorAuthenticate
@@ -29,6 +30,7 @@ trait TowFactorAuthenticate
             return redirect(route('2fa.token'));
         }
 
+        $user->notify(new LoginToWebsiteNotification());
         return false;
     }
 }
