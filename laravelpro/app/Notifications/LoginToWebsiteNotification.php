@@ -43,7 +43,9 @@ class LoginToWebsiteNotification extends Notification
         return (new MailMessage)
                     ->from(env('MAIL_FROM_ADDRESS'))
                     ->subject('Uare Loged in')
-                    ->view('emails.login-to-website');
+//                    ->view('emails.login-to-website');
+                    ->markdown('emails.login-to-website');
+
     }
 
     /**
