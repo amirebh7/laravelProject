@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +55,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new ResetPasswordNotification($token));
     }
 
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotification);
+    }
 
     public function activecode(){
         return $this->hasMany(ActiveCode::class);
