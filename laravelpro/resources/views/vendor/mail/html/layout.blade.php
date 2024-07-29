@@ -6,6 +6,11 @@
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
 <style>
+
+    p{
+        text-align: right !important;
+    }
+
 @media only screen and (max-width: 600px) {
 .inner-body {
 width: 100% !important;
