@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\Auth\GoogleAuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Profile\IndexController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Profile\TwoFactorAuthController;
+use App\Http\Controllers\Profile\TokenAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,11 +38,11 @@ Route::get('/secret' , function() {
 })->middleware(['auth' , 'password.confirm']);
 
 Route::middleware('auth')->group(function() {
-    Route::get('profile' , [ProfileController::class, 'index'])->name('profile');
-    Route::get('profile/twofactor' , [ProfileController::class, 'manageTwoFactor'])->name('profile.2fa.manage');
-    Route::post('profile/twofactor' , [ProfileController::class, 'postManageTwoFactor']);
+    Route::get('profile' , [IndexController::class, 'index'])->name('profile');
+    Route::get('profile/twofactor' , [TwoFactorAuthController::class, 'manageTwoFactor'])->name('profile.2fa.manage');
+    Route::post('profile/twofactor' , [TwoFactorAuthController::class, 'postManageTwoFactor']);
 
-    Route::get('profile/twofactor/phone' , [ProfileController::class, 'getPhoneVerify'])->name('profile.2fa.phone');
-    Route::post('profile/twofactor/phone' , [ProfileController::class, 'postPhoneVerify']);
+    Route::get('profile/twofactor/phone' , [TokenAuthController::class, 'getPhoneVerify'])->name('profile.2fa.phone');
+    Route::post('profile/twofactor/phone' , [TokenAuthController::class, 'postPhoneVerify']);
 });
 
